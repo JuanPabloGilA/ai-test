@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog de Arquitectura de Software</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">▲</span>
+                <span class="logo-text">ArquiBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Inicio</a>
+                <a href="posts/post1.html" class="nav-link">Posts</a>
+                <a href="#about" class="nav-link">Acerca de</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero">
+            <div class="hero-badge">Blog Técnico</div>
+            <h1 class="hero-title">
+                Arquitectura de
+                <span class="gradient-text">Software</span>
+            </h1>
+            <p class="hero-description">
+                Explora los fundamentos, estilos y patrones arquitectónicos que definen
+                el desarrollo de software moderno. Una guía completa para entender cómo
+                construir sistemas escalables y mantenibles.
+            </p>
+            <div class="hero-buttons">
+                <a href="posts/post1.html" class="btn btn-primary">Comenzar a leer</a>
+                <a href="#posts" class="btn btn-secondary">Ver todos los posts</a>
+            </div>
+        </section>
+
+        <section id="posts" class="posts-section">
+            <div class="section-header">
+                <h2 class="section-title">Publicaciones</h2>
+                <p class="section-subtitle">Tres artículos esenciales sobre arquitectura de software</p>
+            </div>
+
+            <div class="posts-grid">
+                <article class="post-card">
+                    <div class="post-number">01</div>
+                    <div class="post-content">
+                        <div class="post-tag">Fundamentos</div>
+                        <h3 class="post-title">¿Qué es la Arquitectura de Software?</h3>
+                        <p class="post-excerpt">
+                            Descubre los conceptos fundamentales, componentes básicos y la importancia
+                            de la arquitectura en el desarrollo de sistemas modernos.
+                        </p>
+                        <div class="post-meta">
+                            <span class="read-time">📖 12 min lectura</span>
+                        </div>
+                        <a href="posts/post1.html" class="post-link">
+                            Leer artículo
+                            <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-number">02</div>
+                    <div class="post-content">
+                        <div class="post-tag">Estilos</div>
+                        <h3 class="post-title">Estilos Arquitectónicos más Utilizados</h3>
+                        <p class="post-excerpt">
+                            Explora desde arquitecturas monolíticas hasta microservicios,
+                            pasando por MVC y arquitecturas en capas.
+                        </p>
+                        <div class="post-meta">
+                            <span class="read-time">📖 15 min lectura</span>
+                        </div>
+                        <a href="posts/post2.html" class="post-link">
+                            Leer artículo
+                            <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-number">03</div>
+                    <div class="post-content">
+                        <div class="post-tag">Patrones</div>
+                        <h3 class="post-title">Patrones Arquitectónicos Modernos</h3>
+                        <p class="post-excerpt">
+                            Clean Architecture, Hexagonal y CQRS: los patrones que están
+                            definiendo el desarrollo de software empresarial.
+                        </p>
+                        <div class="post-meta">
+                            <span class="read-time">📖 18 min lectura</span>
+                        </div>
+                        <a href="posts/post3.html" class="post-link">
+                            Leer artículo
+                            <span class="arrow">→</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="about" class="about-section">
+            <div class="about-container">
+                <h2 class="section-title">Acerca del Blog</h2>
+                <p class="about-text">
+                    Este blog técnico fue creado como parte de una actividad académica para investigar,
+                    redactar y publicar contenido sobre Arquitectura de Software. El objetivo es
+                    proporcionar una guía clara y concisa sobre los conceptos fundamentales que todo
+                    desarrollador debe conocer.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">GitHub Pages</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">▲</span>
+                <span>Juan Pablo Gil Alvarez</span>
+            </div>
+            <p class="footer-text">
+                © 2024 Blog de Arquitectura de Software.
+                Desarrollado con HTML, CSS y JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

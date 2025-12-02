@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué es la Arquitectura de Software? | ArquiBlog</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">▲</span>
+                <span class="logo-text">ArquiBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Inicio</a>
+                <a href="post1.html" class="nav-link active">Posts</a>
+                <a href="../index.html#about" class="nav-link">Acerca de</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <article class="post-page">
+            <header class="post-header">
+                <span class="post-tag">Fundamentos</span>
+                <h1>¿Qué es la Arquitectura de Software?</h1>
+                <div class="post-meta">
+                    <span>📖 12 min lectura</span> · <span>Post 1 de 3</span>
+                </div>
+            </header>
+
+            <div class="post-body">
+                <h2>Definición de Arquitectura de Software</h2>
+                <p>
+                    La <strong>Arquitectura de Software</strong> es la estructura fundamental de un sistema de software,
+                    que comprende los componentes del sistema, las relaciones entre ellos, y los principios que
+                    guían su diseño y evolución. Es el plano maestro que define cómo se organizan y comunican
+                    las diferentes partes de una aplicación.
+                </p>
+
+                <blockquote>
+                    <p>
+                        "La arquitectura de software representa las decisiones de diseño significativas que dan forma
+                        a un sistema, donde la significancia se mide por el costo del cambio."
+                        — Grady Booch
+                    </p>
+                </blockquote>
+
+                <p>
+                    En términos más simples, la arquitectura de software es como el plano de un edificio: antes de
+                    construir, necesitamos saber dónde irán las habitaciones, cómo se conectarán, dónde pasarán las
+                    tuberías y el cableado. De manera similar, antes de escribir código, necesitamos definir los
+                    componentes del sistema y cómo interactuarán entre sí.
+                </p>
+
+                <h2>Objetivo Principal de la Arquitectura en un Sistema</h2>
+                <p>
+                    El objetivo principal de la arquitectura de software es <strong>proporcionar una estructura
+                    organizada</strong> que permita desarrollar, mantener y escalar el sistema de manera eficiente.
+                    Una buena arquitectura debe:
+                </p>
+
+                <ul>
+                    <li><strong>Facilitar la comunicación</strong> entre los miembros del equipo de desarrollo</li>
+                    <li><strong>Permitir la toma de decisiones</strong> técnicas fundamentales de manera temprana</li>
+                    <li><strong>Definir restricciones</strong> y lineamientos para el desarrollo</li>
+                    <li><strong>Gestionar la complejidad</strong> dividiendo el sistema en partes manejables</li>
+                    <li><strong>Garantizar atributos de calidad</strong> como rendimiento, seguridad y disponibilidad</li>
+                </ul>
+
+                <div class="info-box highlight">
+                    <h4>Punto Clave</h4>
+                    <p>
+                        Una arquitectura bien diseñada reduce el costo total del desarrollo a largo plazo,
+                        aunque pueda requerir más tiempo inicial de planificación.
+                    </p>
+                </div>
+
+                <h2>Componentes Básicos de una Arquitectura</h2>
+                <p>
+                    Toda arquitectura de software se compone de tres elementos fundamentales que trabajan
+                    en conjunto para crear un sistema cohesivo:
+                </p>
+
+                <h3>Módulos</h3>
+                <p>
+                    Los <strong>módulos</strong> son unidades de software que encapsulan una funcionalidad específica.
+                    Cada módulo tiene una responsabilidad bien definida y puede desarrollarse, probarse y mantenerse
+                    de forma independiente.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Ejemplo de Módulos</div>
+                    <pre>
+┌─────────────────────────────────────────────────────┐
+│                     SISTEMA                          │
+│                                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌────────────┐ │
+│  │   Módulo     │  │   Módulo     │  │   Módulo   │ │
+│  │   Usuarios   │  │   Pagos      │  │   Reportes │ │
+│  │              │  │              │  │            │ │
+│  │ - Login      │  │ - Procesar   │  │ - Generar  │ │
+│  │ - Registro   │  │ - Validar    │  │ - Exportar │ │
+│  │ - Perfil     │  │ - Historial  │  │ - Gráficos │ │
+│  └──────────────┘  └──────────────┘  └────────────┘ │
+└─────────────────────────────────────────────────────┘
+                    </pre>
+                </div>
+
+                <h3>Interfaces</h3>
+                <p>
+                    Las <strong>interfaces</strong> definen los contratos de comunicación entre módulos. Especifican
+                    qué operaciones están disponibles y cómo deben invocarse, sin revelar los detalles de
+                    implementación interna.
+                </p>
+                <p>
+                    Las interfaces permiten el <strong>bajo acoplamiento</strong>: los módulos pueden cambiar
+                    internamente sin afectar a otros módulos, siempre que respeten el contrato de la interfaz.
+                </p>
+
+                <h3>Conectores</h3>
+                <p>
+                    Los <strong>conectores</strong> son los mecanismos que permiten la interacción entre componentes.
+                    Pueden ser simples llamadas a funciones, protocolos de comunicación, colas de mensajes,
+                    APIs REST, o cualquier otro medio de intercambio de información.
+                </p>
+
+                <div class="info-box">
+                    <h4>Tipos Comunes de Conectores</h4>
+                    <ul>
+                        <li><strong>Llamadas a procedimientos:</strong> Invocaciones directas entre módulos</li>
+                        <li><strong>Eventos:</strong> Comunicación asíncrona basada en publicación/suscripción</li>
+                        <li><strong>HTTP/REST:</strong> Comunicación entre servicios web</li>
+                        <li><strong>Colas de mensajes:</strong> Comunicación desacoplada y asíncrona</li>
+                        <li><strong>Memoria compartida:</strong> Acceso directo a datos comunes</li>
+                    </ul>
+                </div>
+
+                <h2>Importancia dentro del Desarrollo de Software</h2>
+                <p>
+                    La arquitectura de software impacta directamente en tres atributos críticos de cualquier sistema:
+                </p>
+
+                <h3>Escalabilidad</h3>
+                <p>
+                    La <strong>escalabilidad</strong> es la capacidad del sistema para manejar un aumento en la
+                    carga de trabajo. Una arquitectura bien diseñada permite:
+                </p>
+                <ul>
+                    <li><strong>Escalabilidad horizontal:</strong> Agregar más servidores o instancias</li>
+                    <li><strong>Escalabilidad vertical:</strong> Aumentar recursos de un servidor existente</li>
+                    <li><strong>Escalabilidad de datos:</strong> Distribuir y replicar información eficientemente</li>
+                </ul>
+                <p>
+                    Por ejemplo, Netflix utiliza una arquitectura de microservicios que le permite escalar
+                    servicios individuales según la demanda, sin afectar al resto del sistema.
+                </p>
+
+                <h3>Mantenibilidad</h3>
+                <p>
+                    La <strong>mantenibilidad</strong> se refiere a la facilidad con la que se puede modificar
+                    el sistema para corregir errores, mejorar rendimiento o adaptar funcionalidades. Una buena
+                    arquitectura promueve:
+                </p>
+                <ul>
+                    <li><strong>Código legible:</strong> Estructuras claras y bien documentadas</li>
+                    <li><strong>Modularidad:</strong> Cambios aislados que no afectan otras partes</li>
+                    <li><strong>Testabilidad:</strong> Facilidad para escribir y ejecutar pruebas</li>
+                </ul>
+
+                <h3>Rendimiento</h3>
+                <p>
+                    El <strong>rendimiento</strong> determina qué tan rápido y eficientemente el sistema
+                    responde a las solicitudes. Las decisiones arquitectónicas afectan:
+                </p>
+                <ul>
+                    <li><strong>Tiempo de respuesta:</strong> Latencia de las operaciones</li>
+                    <li><strong>Throughput:</strong> Cantidad de operaciones por unidad de tiempo</li>
+                    <li><strong>Uso de recursos:</strong> Eficiencia en CPU, memoria y red</li>
+                </ul>
+
+                <h2>Roles y Responsabilidades de un Arquitecto de Software</h2>
+                <p>
+                    El <strong>Arquitecto de Software</strong> es el profesional responsable de diseñar y
+                    supervisar la estructura del sistema. Sus principales responsabilidades incluyen:
+                </p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Responsabilidad</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Diseño de la arquitectura</strong></td>
+                            <td>Definir la estructura general del sistema y sus componentes principales</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Toma de decisiones técnicas</strong></td>
+                            <td>Seleccionar tecnologías, frameworks y herramientas apropiadas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Documentación</strong></td>
+                            <td>Crear y mantener documentación técnica de la arquitectura</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mentoría</strong></td>
+                            <td>Guiar al equipo de desarrollo en la implementación correcta</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Evaluación de riesgos</strong></td>
+                            <td>Identificar y mitigar riesgos técnicos del proyecto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Comunicación</strong></td>
+                            <td>Servir de puente entre stakeholders técnicos y no técnicos</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Ejemplos Básicos de Arquitecturas en Proyectos Reales</h2>
+                <p>
+                    Veamos cómo empresas reconocidas han implementado arquitecturas exitosas:
+                </p>
+
+                <h3>Amazon</h3>
+                <p>
+                    Amazon migró de una arquitectura monolítica a <strong>microservicios</strong> en los
+                    primeros años de 2000. Cada equipo ("two-pizza team") es responsable de un servicio
+                    específico, lo que permitió escalar masivamente y desplegar cambios de forma independiente.
+                </p>
+
+                <h3>Spotify</h3>
+                <p>
+                    Spotify utiliza una arquitectura basada en <strong>microservicios con squads</strong>
+                    (equipos autónomos). Cada squad gestiona un conjunto de servicios relacionados,
+                    permitiendo innovación rápida y despliegues frecuentes.
+                </p>
+
+                <h3>Uber</h3>
+                <p>
+                    Uber implementó una arquitectura de <strong>microservicios orientada a dominios</strong>,
+                    donde cada servicio representa un concepto de negocio (viajes, pagos, conductores).
+                    Utilizan colas de mensajes para comunicación asíncrona entre servicios.
+                </p>
+
+                <div class="info-box highlight">
+                    <h4>Lección Común</h4>
+                    <p>
+                        Todas estas empresas comenzaron con arquitecturas más simples y evolucionaron
+                        según sus necesidades. La arquitectura debe adaptarse al crecimiento del negocio.
+                    </p>
+                </div>
+
+                <h2>Conclusión</h2>
+                <p>
+                    La arquitectura de software es el cimiento sobre el cual se construyen sistemas exitosos.
+                    No es simplemente un diagrama técnico, sino una <strong>guía estratégica</strong> que
+                    impacta en cada aspecto del desarrollo: desde la productividad del equipo hasta la
+                    satisfacción del usuario final.
+                </p>
+                <p>
+                    Invertir tiempo en diseñar una buena arquitectura no es un lujo, es una <strong>necesidad</strong>.
+                    Los sistemas que carecen de una arquitectura clara tienden a convertirse en "bolas de
+                    lodo" difíciles de mantener y escalar.
+                </p>
+                <p>
+                    En los siguientes posts, exploraremos los diferentes estilos y patrones arquitectónicos
+                    que podemos aplicar para construir sistemas robustos, escalables y mantenibles.
+                </p>
+            </div>
+
+            <nav class="post-navigation">
+                <a href="../index.html" class="nav-card prev">
+                    <span class="nav-label">← Anterior</span>
+                    <span class="nav-title">Volver al inicio</span>
+                </a>
+                <a href="post2.html" class="nav-card next">
+                    <span class="nav-label">Siguiente →</span>
+                    <span class="nav-title">Estilos Arquitectónicos</span>
+                </a>
+            </nav>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">▲</span>
+                <span>ArquiBlog</span>
+            </div>
+            <p class="footer-text">
+                © 2024 Blog de Arquitectura de Software.
+                Desarrollado con HTML, CSS y JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="../scripts.js"></script>
+</body>
+</html>

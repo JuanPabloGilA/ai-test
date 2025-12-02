@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patrones Arquitectónicos Modernos | ArquiBlog</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">▲</span>
+                <span class="logo-text">ArquiBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Inicio</a>
+                <a href="post1.html" class="nav-link active">Posts</a>
+                <a href="../index.html#about" class="nav-link">Acerca de</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <article class="post-page">
+            <header class="post-header">
+                <span class="post-tag">Patrones</span>
+                <h1>Patrones Arquitectónicos Modernos</h1>
+                <div class="post-meta">
+                    <span>📖 18 min lectura</span> · <span>Post 3 de 3</span>
+                </div>
+            </header>
+
+            <div class="post-body">
+                <h2>Definición de Patrón Arquitectónico</h2>
+                <p>
+                    Un <strong>patrón arquitectónico</strong> es una solución probada y reutilizable para
+                    problemas recurrentes en el diseño de software a nivel de arquitectura. A diferencia
+                    de los estilos arquitectónicos (que son más abstractos), los patrones proporcionan
+                    guías más específicas sobre cómo estructurar y organizar el código.
+                </p>
+
+                <blockquote>
+                    <p>
+                        "La arquitectura es sobre las decisiones importantes, y las decisiones importantes
+                        son aquellas que son difíciles de cambiar."
+                        — Martin Fowler
+                    </p>
+                </blockquote>
+
+                <p>
+                    En este artículo exploraremos tres patrones arquitectónicos que han ganado gran
+                    relevancia en el desarrollo de software moderno: <strong>Clean Architecture</strong>,
+                    <strong>Arquitectura Hexagonal</strong> y <strong>CQRS</strong>.
+                </p>
+
+                <h2>Clean Architecture</h2>
+                <p>
+                    <strong>Clean Architecture</strong>, propuesta por Robert C. Martin (Uncle Bob), es un
+                    patrón que enfatiza la separación de responsabilidades y la independencia del negocio
+                    respecto a frameworks, bases de datos y otros detalles de implementación.
+                </p>
+
+                <h3>Capas de Clean Architecture</h3>
+                <p>
+                    El patrón se organiza en capas concéntricas, donde las dependencias siempre apuntan
+                    hacia el interior (hacia el negocio):
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Clean Architecture - Capas Concéntricas</div>
+                    <pre>
+┌─────────────────────────────────────────────────────────────┐
+│                    FRAMEWORKS & DRIVERS                      │
+│         (Web, UI, DB, Dispositivos, APIs Externas)          │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │               INTERFACE ADAPTERS                       │  │
+│  │      (Controllers, Gateways, Presenters, ViewModels)  │  │
+│  │  ┌─────────────────────────────────────────────────┐  │  │
+│  │  │              APPLICATION BUSINESS               │  │  │
+│  │  │            (Use Cases / Interactors)            │  │  │
+│  │  │  ┌───────────────────────────────────────────┐  │  │  │
+│  │  │  │          ENTERPRISE BUSINESS              │  │  │  │
+│  │  │  │      (Entities / Domain Objects)          │  │  │  │
+│  │  │  │                                           │  │  │  │
+│  │  │  │    Reglas de negocio más importantes      │  │  │  │
+│  │  │  └───────────────────────────────────────────┘  │  │  │
+│  │  └─────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+
+        ← ← ← DIRECCIÓN DE LAS DEPENDENCIAS ← ← ←
+                    (hacia el centro)
+                    </pre>
+                </div>
+
+                <h4>1. Entities (Entidades)</h4>
+                <p>
+                    El núcleo más interno. Contiene las <strong>reglas de negocio empresariales</strong>
+                    que son las más críticas y menos propensas a cambiar. Son independientes de todo.
+                </p>
+
+                <h4>2. Use Cases (Casos de Uso)</h4>
+                <p>
+                    Contiene la <strong>lógica de aplicación específica</strong>. Define qué hace el
+                    sistema y orquesta el flujo de datos entre entidades.
+                </p>
+
+                <h4>3. Interface Adapters (Adaptadores)</h4>
+                <p>
+                    Convierte datos entre el formato de los casos de uso y el formato externo
+                    (bases de datos, APIs, UI). Incluye Controllers, Presenters y Gateways.
+                </p>
+
+                <h4>4. Frameworks & Drivers</h4>
+                <p>
+                    La capa más externa. Contiene detalles como el framework web, la base de datos,
+                    y otras herramientas externas. Es la capa más volátil.
+                </p>
+
+                <h3>Propósito</h3>
+                <ul>
+                    <li><strong>Independencia de frameworks:</strong> El negocio no depende de ningún framework</li>
+                    <li><strong>Testabilidad:</strong> Las reglas de negocio se pueden probar sin UI, DB, o servicios externos</li>
+                    <li><strong>Independencia de UI:</strong> La UI puede cambiar sin afectar el resto del sistema</li>
+                    <li><strong>Independencia de base de datos:</strong> Puedes cambiar de Oracle a MongoDB sin tocar el negocio</li>
+                </ul>
+
+                <h2>Arquitectura Hexagonal (Puertos y Adaptadores)</h2>
+                <p>
+                    La <strong>Arquitectura Hexagonal</strong>, propuesta por Alistair Cockburn, también
+                    conocida como "Puertos y Adaptadores", busca aislar el núcleo de la aplicación de
+                    las influencias externas mediante interfaces bien definidas.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Arquitectura Hexagonal</div>
+                    <pre>
+                         ADAPTADORES PRIMARIOS
+                        (Driving / Entrada)
+                    ┌─────────────────────────┐
+                    │   REST    │    CLI     │
+                    │   API     │   Tests    │
+                    └─────┬─────┴─────┬──────┘
+                          │           │
+                    ┌─────┴───────────┴──────┐
+                    │       PUERTOS          │
+                    │      (Interfaces)      │
+                    │  ┌─────────────────┐   │
+          ┌─────────┤  │                 │   ├─────────┐
+          │         │  │   DOMINIO /     │   │         │
+    ┌─────┴───┐     │  │   APLICACIÓN    │   │   ┌─────┴───┐
+    │ Adapter │◄────┤  │                 │   ├──►│ Adapter │
+    │   DB    │     │  │  (Core Logic)   │   │   │  Email  │
+    └─────────┘     │  │                 │   │   └─────────┘
+                    │  └─────────────────┘   │
+                    │       PUERTOS          │
+                    └─────┬───────────┬──────┘
+                          │           │
+                    ┌─────┴───────────┴──────┐
+                    │ Database │  External   │
+                    │          │   Services  │
+                    └──────────────────────────┘
+                         ADAPTADORES SECUNDARIOS
+                          (Driven / Salida)
+                    </pre>
+                </div>
+
+                <h3>Conceptos Clave</h3>
+
+                <h4>Puertos (Ports)</h4>
+                <p>
+                    Son <strong>interfaces</strong> que definen cómo el mundo exterior interactúa con
+                    la aplicación (puertos primarios) y cómo la aplicación interactúa con servicios
+                    externos (puertos secundarios).
+                </p>
+
+                <h4>Adaptadores (Adapters)</h4>
+                <p>
+                    Son <strong>implementaciones concretas</strong> de los puertos. Traducen las
+                    solicitudes externas al formato que entiende la aplicación y viceversa.
+                </p>
+
+                <div class="info-box highlight">
+                    <h4>Diferencia entre Puertos Primarios y Secundarios</h4>
+                    <ul>
+                        <li><strong>Primarios (Driving):</strong> Quién llama a la aplicación (UI, API, Tests)</li>
+                        <li><strong>Secundarios (Driven):</strong> A quién llama la aplicación (DB, Email, APIs externas)</li>
+                    </ul>
+                </div>
+
+                <h3>Ejemplo Práctico</h3>
+                <p>
+                    Imagina un sistema de pedidos:
+                </p>
+                <ul>
+                    <li><strong>Puerto primario:</strong> <code>OrderService</code> interface (para crear, listar pedidos)</li>
+                    <li><strong>Adaptador primario:</strong> <code>OrderRestController</code> que expone la API REST</li>
+                    <li><strong>Puerto secundario:</strong> <code>OrderRepository</code> interface (para persistir)</li>
+                    <li><strong>Adaptador secundario:</strong> <code>PostgresOrderRepository</code> implementación</li>
+                </ul>
+
+                <h2>Patrón CQRS (Command Query Responsibility Segregation)</h2>
+                <p>
+                    <strong>CQRS</strong> es un patrón que separa las operaciones de lectura (Queries)
+                    de las operaciones de escritura (Commands) en modelos diferentes. Propuesto por
+                    Greg Young, es especialmente útil en sistemas con requisitos de lectura y escritura
+                    muy diferentes.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Patrón CQRS</div>
+                    <pre>
+                        ┌─────────────┐
+                        │   CLIENTE   │
+                        └──────┬──────┘
+                               │
+            ┌──────────────────┼──────────────────┐
+            │                  │                  │
+            ↓                                     ↓
+    ┌───────────────┐                    ┌───────────────┐
+    │   COMMANDS    │                    │    QUERIES    │
+    │   (Writes)    │                    │    (Reads)    │
+    └───────┬───────┘                    └───────┬───────┘
+            │                                    │
+            ↓                                    ↓
+    ┌───────────────┐                    ┌───────────────┐
+    │   Command     │                    │    Query      │
+    │   Handlers    │                    │    Handlers   │
+    └───────┬───────┘                    └───────┬───────┘
+            │                                    │
+            ↓                                    ↓
+    ┌───────────────┐      sync/         ┌───────────────┐
+    │  Write Model  │ ───────────────→   │  Read Model   │
+    │  (Normalized) │      event         │ (Optimizado   │
+    │               │                    │  para queries)│
+    └───────┬───────┘                    └───────┬───────┘
+            │                                    │
+            ↓                                    ↓
+    ┌───────────────┐                    ┌───────────────┐
+    │   Write DB    │                    │   Read DB     │
+    │  (PostgreSQL) │                    │   (MongoDB,   │
+    │               │                    │    Redis)     │
+    └───────────────┘                    └───────────────┘
+                    </pre>
+                </div>
+
+                <h3>Conceptos Fundamentales</h3>
+
+                <h4>Commands (Comandos)</h4>
+                <p>
+                    Representan <strong>intenciones de cambio</strong> en el sistema. Son imperativos
+                    que modifican el estado: <code>CreateOrder</code>, <code>UpdateUser</code>,
+                    <code>DeleteProduct</code>.
+                </p>
+
+                <h4>Queries (Consultas)</h4>
+                <p>
+                    Representan <strong>solicitudes de datos</strong> sin modificar el estado:
+                    <code>GetOrderById</code>, <code>ListActiveUsers</code>, <code>SearchProducts</code>.
+                </p>
+
+                <h4>Handlers (Manejadores)</h4>
+                <p>
+                    Procesan los commands y queries. Cada uno tiene su propio modelo optimizado
+                    para su propósito específico.
+                </p>
+
+                <div class="info-box">
+                    <h4>Cuándo usar CQRS</h4>
+                    <ul>
+                        <li>Sistemas con patrones de lectura/escritura muy diferentes</li>
+                        <li>Necesidad de optimizar lecturas independientemente de escrituras</li>
+                        <li>Sistemas colaborativos con múltiples vistas de los mismos datos</li>
+                        <li>Integración con Event Sourcing</li>
+                    </ul>
+                </div>
+
+                <h2>Ventajas y Desventajas de Cada Patrón</h2>
+
+                <h3>Clean Architecture</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Ventajas</th>
+                            <th>Desventajas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Independencia total del framework</td>
+                            <td>Curva de aprendizaje pronunciada</td>
+                        </tr>
+                        <tr>
+                            <td>Altamente testeable</td>
+                            <td>Más código boilerplate</td>
+                        </tr>
+                        <tr>
+                            <td>Facilita el mantenimiento a largo plazo</td>
+                            <td>Puede ser excesivo para proyectos pequeños</td>
+                        </tr>
+                        <tr>
+                            <td>Clara separación de responsabilidades</td>
+                            <td>Requiere disciplina del equipo</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Arquitectura Hexagonal</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Ventajas</th>
+                            <th>Desventajas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fácil de testear con mocks</td>
+                            <td>Abstracción adicional puede ser confusa</td>
+                        </tr>
+                        <tr>
+                            <td>Flexibilidad para cambiar adaptadores</td>
+                            <td>Más interfaces que implementar</td>
+                        </tr>
+                        <tr>
+                            <td>Dominio protegido de cambios externos</td>
+                            <td>Overhead para aplicaciones simples</td>
+                        </tr>
+                        <tr>
+                            <td>Simetría conceptual clara</td>
+                            <td>Requiere buenos conocimientos de diseño</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>CQRS</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Ventajas</th>
+                            <th>Desventajas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Optimización independiente de reads/writes</td>
+                            <td>Complejidad significativamente mayor</td>
+                        </tr>
+                        <tr>
+                            <td>Escalabilidad granular</td>
+                            <td>Consistencia eventual puede ser problemática</td>
+                        </tr>
+                        <tr>
+                            <td>Modelos de datos especializados</td>
+                            <td>Sincronización entre modelos</td>
+                        </tr>
+                        <tr>
+                            <td>Excelente para sistemas distribuidos</td>
+                            <td>No apto para aplicaciones CRUD simples</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Ejemplos de Aplicación en Proyectos Modernos</h2>
+
+                <h3>Clean Architecture</h3>
+                <div class="info-box">
+                    <h4>Caso: Aplicación Bancaria</h4>
+                    <p>
+                        Un banco implementa Clean Architecture para su core banking. Las reglas de
+                        negocio (cálculo de intereses, validación de transacciones) están en el centro,
+                        completamente aisladas. Pueden cambiar de Oracle a PostgreSQL, o de una API
+                        REST a GraphQL, sin tocar una línea del código de negocio.
+                    </p>
+                </div>
+
+                <h3>Arquitectura Hexagonal</h3>
+                <div class="info-box">
+                    <h4>Caso: Sistema de E-commerce</h4>
+                    <p>
+                        Una plataforma de e-commerce usa Hexagonal para su módulo de pagos. El dominio
+                        define interfaces para procesadores de pago (Puerto), y tienen adaptadores
+                        para Stripe, PayPal y transferencias bancarias. Agregar un nuevo método de
+                        pago solo requiere crear un nuevo adaptador.
+                    </p>
+                </div>
+
+                <h3>CQRS</h3>
+                <div class="info-box">
+                    <h4>Caso: Red Social</h4>
+                    <p>
+                        Una red social implementa CQRS para manejar el feed de noticias. Las escrituras
+                        (posts, likes, comentarios) van a una base de datos normalizada. Las lecturas
+                        del feed se sirven desde vistas materializadas optimizadas en Redis, actualizadas
+                        asíncronamente. Esto permite millones de lecturas por segundo.
+                    </p>
+                </div>
+
+                <h2>Conclusión General: Comparando los Tres Patrones</h2>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto</th>
+                            <th>Clean Architecture</th>
+                            <th>Hexagonal</th>
+                            <th>CQRS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Enfoque Principal</strong></td>
+                            <td>Independencia de frameworks</td>
+                            <td>Aislamiento del dominio</td>
+                            <td>Separación read/write</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Complejidad</strong></td>
+                            <td>Media-Alta</td>
+                            <td>Media</td>
+                            <td>Alta</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mejor Para</strong></td>
+                            <td>Apps empresariales complejas</td>
+                            <td>Sistemas con múltiples interfaces</td>
+                            <td>Alto tráfico, reads ≠ writes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Curva de Aprendizaje</strong></td>
+                            <td>Pronunciada</td>
+                            <td>Moderada</td>
+                            <td>Pronunciada</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compatibilidad</strong></td>
+                            <td>Se combina bien con Hexagonal</td>
+                            <td>Base para Clean Architecture</td>
+                            <td>Complementa ambos</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box highlight">
+                    <h4>Reflexión Final</h4>
+                    <p>
+                        Estos patrones no son mutuamente excluyentes. De hecho, muchos proyectos exitosos
+                        combinan elementos de los tres. Por ejemplo, puedes usar Clean Architecture como
+                        base, con la organización de Puertos y Adaptadores de Hexagonal, y aplicar CQRS
+                        en módulos específicos donde la separación de lecturas y escrituras aporte valor.
+                    </p>
+                    <p>
+                        La clave está en <strong>entender el problema antes de elegir la solución</strong>.
+                        No adoptes un patrón porque está de moda; adóptalo porque resuelve una necesidad
+                        real de tu proyecto.
+                    </p>
+                </div>
+
+                <p>
+                    Con esto concluimos nuestra serie sobre Arquitectura de Software. Desde los
+                    fundamentos hasta los patrones más modernos, esperamos que este conocimiento
+                    te ayude a diseñar sistemas más robustos, mantenibles y escalables.
+                </p>
+            </div>
+
+            <nav class="post-navigation">
+                <a href="post2.html" class="nav-card prev">
+                    <span class="nav-label">← Anterior</span>
+                    <span class="nav-title">Estilos Arquitectónicos</span>
+                </a>
+                <a href="../index.html" class="nav-card next">
+                    <span class="nav-label">Volver →</span>
+                    <span class="nav-title">Página Principal</span>
+                </a>
+            </nav>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">▲</span>
+                <span>ArquiBlog</span>
+            </div>
+            <p class="footer-text">
+                © 2024 Blog de Arquitectura de Software.
+                Desarrollado con HTML, CSS y JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="../scripts.js"></script>
+</body>
+</html>

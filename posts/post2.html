@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estilos Arquitectónicos | ArquiBlog</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">▲</span>
+                <span class="logo-text">ArquiBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Inicio</a>
+                <a href="post1.html" class="nav-link active">Posts</a>
+                <a href="../index.html#about" class="nav-link">Acerca de</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <article class="post-page">
+            <header class="post-header">
+                <span class="post-tag">Estilos</span>
+                <h1>Estilos Arquitectónicos más Utilizados</h1>
+                <div class="post-meta">
+                    <span>📖 15 min lectura</span> · <span>Post 2 de 3</span>
+                </div>
+            </header>
+
+            <div class="post-body">
+                <h2>Definición de Estilo Arquitectónico</h2>
+                <p>
+                    Un <strong>estilo arquitectónico</strong> es un conjunto de principios y patrones que
+                    proporcionan un marco abstracto para una familia de sistemas. Define las reglas generales
+                    de organización, incluyendo tipos de componentes, sus relaciones y las restricciones
+                    sobre cómo pueden combinarse.
+                </p>
+                <p>
+                    Piensa en los estilos arquitectónicos como "plantillas" probadas que nos guían en la
+                    estructuración de un sistema. Cada estilo tiene sus propias características, ventajas
+                    y contextos donde resulta más apropiado.
+                </p>
+
+                <blockquote>
+                    <p>
+                        "No existe una arquitectura universalmente correcta. El mejor estilo depende del
+                        contexto, los requisitos y las restricciones del proyecto."
+                    </p>
+                </blockquote>
+
+                <h2>Estilo Monolítico</h2>
+                <p>
+                    La <strong>arquitectura monolítica</strong> es el enfoque tradicional donde toda la
+                    aplicación se construye como una única unidad desplegable. Todo el código —interfaz
+                    de usuario, lógica de negocio y acceso a datos— reside en un solo proyecto.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Arquitectura Monolítica</div>
+                    <pre>
+┌─────────────────────────────────────────────┐
+│              APLICACIÓN MONOLÍTICA          │
+│                                             │
+│  ┌─────────────────────────────────────┐   │
+│  │        Interfaz de Usuario          │   │
+│  └─────────────────────────────────────┘   │
+│                    ↓                        │
+│  ┌─────────────────────────────────────┐   │
+│  │        Lógica de Negocio            │   │
+│  │   ┌─────────┐ ┌─────────┐ ┌───────┐ │   │
+│  │   │ Usuarios│ │ Pedidos │ │ Pagos │ │   │
+│  │   └─────────┘ └─────────┘ └───────┘ │   │
+│  └─────────────────────────────────────┘   │
+│                    ↓                        │
+│  ┌─────────────────────────────────────┐   │
+│  │        Acceso a Datos               │   │
+│  └─────────────────────────────────────┘   │
+│                    ↓                        │
+│            ┌─────────────┐                  │
+│            │  Base Datos │                  │
+│            └─────────────┘                  │
+└─────────────────────────────────────────────┘
+                    </pre>
+                </div>
+
+                <h3>Características</h3>
+                <ul>
+                    <li>Un único ejecutable o paquete desplegable</li>
+                    <li>Todos los componentes comparten el mismo proceso</li>
+                    <li>Base de datos centralizada</li>
+                    <li>Comunicación interna mediante llamadas a funciones</li>
+                </ul>
+
+                <h3>Ventajas</h3>
+                <ul>
+                    <li><strong>Simplicidad:</strong> Fácil de desarrollar, probar y desplegar inicialmente</li>
+                    <li><strong>Rendimiento:</strong> Sin latencia de red entre componentes</li>
+                    <li><strong>Depuración:</strong> Un solo proceso facilita el debugging</li>
+                    <li><strong>Transacciones:</strong> ACID garantizado con una sola base de datos</li>
+                </ul>
+
+                <h3>Desventajas</h3>
+                <ul>
+                    <li><strong>Escalabilidad limitada:</strong> Solo escalable verticalmente</li>
+                    <li><strong>Despliegues arriesgados:</strong> Cualquier cambio requiere redesplegar todo</li>
+                    <li><strong>Tecnología única:</strong> Todo el equipo debe usar el mismo stack</li>
+                    <li><strong>Crecimiento complejo:</strong> Se vuelve difícil de mantener con el tiempo</li>
+                </ul>
+
+                <h2>Arquitectura en Capas (N-Capas)</h2>
+                <p>
+                    La <strong>arquitectura en capas</strong> organiza el sistema en capas horizontales,
+                    donde cada capa tiene una responsabilidad específica y solo puede comunicarse con
+                    las capas adyacentes.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Arquitectura de 4 Capas</div>
+                    <pre>
+┌─────────────────────────────────────────┐
+│         CAPA DE PRESENTACIÓN            │
+│   (Controllers, Views, UI Components)   │
+└─────────────────────────────────────────┘
+                    ↓ ↑
+┌─────────────────────────────────────────┐
+│         CAPA DE APLICACIÓN              │
+│   (Servicios, Casos de Uso, DTOs)       │
+└─────────────────────────────────────────┘
+                    ↓ ↑
+┌─────────────────────────────────────────┐
+│          CAPA DE DOMINIO                │
+│   (Entidades, Reglas de Negocio)        │
+└─────────────────────────────────────────┘
+                    ↓ ↑
+┌─────────────────────────────────────────┐
+│       CAPA DE INFRAESTRUCTURA           │
+│   (Repositorios, BD, APIs Externas)     │
+└─────────────────────────────────────────┘
+                    </pre>
+                </div>
+
+                <div class="info-box">
+                    <h4>Regla Fundamental</h4>
+                    <p>
+                        Las capas superiores dependen de las inferiores, nunca al revés. Esto promueve
+                        la separación de responsabilidades y facilita el testing.
+                    </p>
+                </div>
+
+                <h2>Arquitectura Cliente-Servidor</h2>
+                <p>
+                    La <strong>arquitectura cliente-servidor</strong> divide el sistema en dos partes:
+                    el cliente (que solicita servicios) y el servidor (que los proporciona). Es el
+                    modelo fundamental de las aplicaciones web modernas.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Cliente-Servidor</div>
+                    <pre>
+┌──────────────┐              ┌──────────────┐
+│   CLIENTE 1  │              │   CLIENTE 2  │
+│  (Browser)   │              │  (Mobile App)│
+└──────┬───────┘              └──────┬───────┘
+       │                              │
+       │    HTTP/HTTPS Requests       │
+       └──────────┬───────────────────┘
+                  ↓
+         ┌────────────────┐
+         │    SERVIDOR    │
+         │                │
+         │  ┌──────────┐  │
+         │  │   API    │  │
+         │  └──────────┘  │
+         │       ↓        │
+         │  ┌──────────┐  │
+         │  │ Database │  │
+         │  └──────────┘  │
+         └────────────────┘
+                    </pre>
+                </div>
+
+                <h3>Características</h3>
+                <ul>
+                    <li>Separación clara entre frontend y backend</li>
+                    <li>Múltiples clientes pueden conectarse al mismo servidor</li>
+                    <li>Comunicación a través de protocolos estándar (HTTP, WebSocket)</li>
+                    <li>El servidor centraliza la lógica de negocio y los datos</li>
+                </ul>
+
+                <h2>Arquitectura MVC</h2>
+                <p>
+                    <strong>Model-View-Controller (MVC)</strong> es un patrón que separa una aplicación
+                    en tres componentes interconectados, facilitando el desarrollo paralelo y la
+                    reutilización de código.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Patrón MVC</div>
+                    <pre>
+                    ┌─────────────────┐
+                    │      USER       │
+                    └────────┬────────┘
+                             │ interactúa
+                             ↓
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│  ┌─────────┐    actualiza    ┌─────────────┐   │
+│  │  VIEW   │ ←───────────────│ CONTROLLER  │   │
+│  │         │                 │             │   │
+│  │ (UI)    │  notifica       │ (Lógica)    │   │
+│  └────┬────┘ ─────────────→  └──────┬──────┘   │
+│       │                             │          │
+│       │         ┌─────────┐         │          │
+│       └────────→│  MODEL  │←────────┘          │
+│        observa  │         │  manipula          │
+│                 │ (Datos) │                    │
+│                 └─────────┘                    │
+└─────────────────────────────────────────────────┘
+                    </pre>
+                </div>
+
+                <h3>Componentes</h3>
+                <ul>
+                    <li><strong>Model:</strong> Representa los datos y la lógica de negocio</li>
+                    <li><strong>View:</strong> Presenta los datos al usuario (interfaz)</li>
+                    <li><strong>Controller:</strong> Maneja la entrada del usuario y coordina Model y View</li>
+                </ul>
+
+                <div class="info-box highlight">
+                    <h4>Frameworks que usan MVC</h4>
+                    <p>
+                        Ruby on Rails, Django (MTV), ASP.NET MVC, Spring MVC, Laravel, Angular (variante)
+                    </p>
+                </div>
+
+                <h2>Arquitectura de Microservicios</h2>
+                <p>
+                    La <strong>arquitectura de microservicios</strong> estructura una aplicación como
+                    un conjunto de servicios pequeños, independientes y desplegables de forma autónoma.
+                    Cada servicio se enfoca en una capacidad de negocio específica.
+                </p>
+
+                <div class="diagram-box">
+                    <div class="diagram-title">Microservicios</div>
+                    <pre>
+                        ┌─────────────┐
+                        │   CLIENTE   │
+                        └──────┬──────┘
+                               │
+                        ┌──────┴──────┐
+                        │ API GATEWAY │
+                        └──────┬──────┘
+                               │
+       ┌───────────────────────┼───────────────────────┐
+       │                       │                       │
+┌──────┴──────┐         ┌──────┴──────┐         ┌──────┴──────┐
+│  Servicio   │         │  Servicio   │         │  Servicio   │
+│  Usuarios   │←───────→│   Pedidos   │←───────→│    Pagos    │
+│             │  REST   │             │  Events │             │
+└──────┬──────┘         └──────┬──────┘         └──────┬──────┘
+       │                       │                       │
+   ┌───┴───┐               ┌───┴───┐               ┌───┴───┐
+   │ DB 1  │               │ DB 2  │               │ DB 3  │
+   └───────┘               └───────┘               └───────┘
+                    </pre>
+                </div>
+
+                <h3>Características</h3>
+                <ul>
+                    <li><strong>Descentralización:</strong> Cada servicio gestiona sus propios datos</li>
+                    <li><strong>Independencia:</strong> Desarrollo, despliegue y escalado independiente</li>
+                    <li><strong>Tecnología heterogénea:</strong> Cada servicio puede usar diferente stack</li>
+                    <li><strong>Resiliencia:</strong> El fallo de un servicio no afecta a los demás</li>
+                </ul>
+
+                <h3>Ventajas</h3>
+                <ul>
+                    <li>Escalabilidad granular por servicio</li>
+                    <li>Equipos pequeños y autónomos</li>
+                    <li>Despliegues frecuentes y de bajo riesgo</li>
+                    <li>Facilita la adopción de nuevas tecnologías</li>
+                </ul>
+
+                <h3>Desventajas</h3>
+                <ul>
+                    <li>Complejidad operacional elevada</li>
+                    <li>Latencia de red entre servicios</li>
+                    <li>Consistencia eventual de datos</li>
+                    <li>Requiere DevOps maduro y automatización</li>
+                </ul>
+
+                <h2>Comparación entre Estilos Arquitectónicos</h2>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Monolítico</th>
+                            <th>N-Capas</th>
+                            <th>Cliente-Servidor</th>
+                            <th>MVC</th>
+                            <th>Microservicios</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Complejidad Inicial</strong></td>
+                            <td>Baja</td>
+                            <td>Media</td>
+                            <td>Baja</td>
+                            <td>Media</td>
+                            <td>Alta</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Escalabilidad</strong></td>
+                            <td>Limitada</td>
+                            <td>Moderada</td>
+                            <td>Moderada</td>
+                            <td>Moderada</td>
+                            <td>Excelente</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mantenibilidad</strong></td>
+                            <td>Difícil a largo plazo</td>
+                            <td>Buena</td>
+                            <td>Buena</td>
+                            <td>Buena</td>
+                            <td>Excelente</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Despliegue</strong></td>
+                            <td>Simple</td>
+                            <td>Simple</td>
+                            <td>Medio</td>
+                            <td>Simple</td>
+                            <td>Complejo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tamaño de Equipo</strong></td>
+                            <td>Pequeño</td>
+                            <td>Pequeño-Medio</td>
+                            <td>Cualquiera</td>
+                            <td>Pequeño-Medio</td>
+                            <td>Grande</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caso de Uso Ideal</strong></td>
+                            <td>MVPs, Startups</td>
+                            <td>Apps empresariales</td>
+                            <td>Apps web/móvil</td>
+                            <td>Apps con UI rica</td>
+                            <td>Sistemas grandes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Conclusión: ¿Cuándo Usar Cada Estilo?</h2>
+
+                <div class="info-box">
+                    <h4>Monolítico</h4>
+                    <p>
+                        Ideal para <strong>proyectos nuevos, MVPs y equipos pequeños</strong>. Cuando no
+                        conoces bien los requisitos o el dominio, comenzar con un monolito bien estructurado
+                        permite iterar rápidamente.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h4>N-Capas</h4>
+                    <p>
+                        Excelente para <strong>aplicaciones empresariales tradicionales</strong> donde la
+                        separación de responsabilidades es crucial. Funciona bien cuando el equipo
+                        está familiarizado con el patrón.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h4>Cliente-Servidor</h4>
+                    <p>
+                        Perfecto para <strong>aplicaciones web y móviles</strong> donde necesitas
+                        soportar múltiples clientes accediendo a un backend centralizado.
+                    </p>
+                </div>
+
+                <div class="info-box">
+                    <h4>MVC</h4>
+                    <p>
+                        Óptimo para <strong>aplicaciones con interfaces de usuario complejas</strong>
+                        donde la separación entre presentación, lógica y datos mejora la productividad.
+                    </p>
+                </div>
+
+                <div class="info-box highlight">
+                    <h4>Microservicios</h4>
+                    <p>
+                        Recomendado para <strong>sistemas grandes con equipos distribuidos</strong>,
+                        alta necesidad de escalabilidad y despliegues frecuentes. Requiere madurez
+                        organizacional y técnica.
+                    </p>
+                </div>
+
+                <p>
+                    Recuerda: la mejor arquitectura es aquella que resuelve tus problemas actuales
+                    sin sobre-ingenierizar para problemas que quizás nunca tengas. Comienza simple
+                    y evoluciona según las necesidades reales del proyecto.
+                </p>
+            </div>
+
+            <nav class="post-navigation">
+                <a href="post1.html" class="nav-card prev">
+                    <span class="nav-label">← Anterior</span>
+                    <span class="nav-title">¿Qué es la Arquitectura?</span>
+                </a>
+                <a href="post3.html" class="nav-card next">
+                    <span class="nav-label">Siguiente →</span>
+                    <span class="nav-title">Patrones Modernos</span>
+                </a>
+            </nav>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">▲</span>
+                <span>ArquiBlog</span>
+            </div>
+            <p class="footer-text">
+                © 2024 Blog de Arquitectura de Software.
+                Desarrollado con HTML, CSS y JavaScript.
+            </p>
+        </div>
+    </footer>
+
+    <script src="../scripts.js"></script>
+</body>
+</html>
