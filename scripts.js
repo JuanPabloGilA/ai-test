@@ -245,6 +245,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
 });
 
 // Console welcome message
+console.log('Hello from issue #4!');
 console.log(
     '%c ArquiBlog %c Blog de Arquitectura de Software ',
     'background: linear-gradient(90deg, #ff0080, #7928ca); color: white; padding: 5px 10px; border-radius: 4px 0 0 4px;',
