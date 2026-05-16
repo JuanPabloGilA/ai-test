@@ -53,9 +53,21 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Cap turns so a confused run can't loop indefinitely; bump
-          # later if you find triage is hitting the cap.
-          claude_args: --model claude-sonnet-4-6 --max-turns 8
+          # Tuning notes:
+          # * --max-turns 25: triage needs to read the repo, plan, edit
+          #   files, run git/gh, and write a comment. 8 was burned in
+          #   denials before the work started; 25 leaves headroom.
+          # * --allowed-tools: the action's default allowlist is very
+          #   tight. Triage needs file edits + git/gh + the usual
+          #   read tools. Permission denials each cost a turn and
+          #   confuse the model, so enumerate up-front.
+          # * The CI runner is ephemeral so the broad Bash allowance
+          #   is bounded by the workflow's lifetime, not a persistent
+          #   shell. PR/comment creation routes through `gh`.
+          claude_args: >-
+            --model claude-sonnet-4-6
+            --max-turns 25
+            --allowed-tools "Bash,Edit,Write,Read,Grep,Glob,WebFetch"
           prompt: |
             A new issue was filed in this repository.
 
