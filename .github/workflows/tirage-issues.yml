@@ -23,6 +23,10 @@ permissions:
   contents: write
   issues: write
   pull-requests: write
+  # Required by the Claude Code action — it exchanges the workflow's
+  # GitHub OIDC token for an Anthropic API session. Without this, the
+  # token request fails with "Unable to get ACTIONS_ID_TOKEN_REQUEST_URL".
+  id-token: write
 
 # Guard against duplicate runs if an issue is opened then edited rapidly.
 # `cancel-in-progress: true` lets the most recent edit supersede the
@@ -91,3 +95,4 @@ jobs:
                - If the project has a `CLAUDE.md`, follow its conventions (commit style, test requirements, etc.).
 
             4. Be terse. Don't post long monologues — the PR body and a single triage comment are the deliverables.
+
