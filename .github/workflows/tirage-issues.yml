@@ -1,0 +1,93 @@
+name: Triage issues with Claude
+
+# Runs on every newly-opened issue (and when an existing issue's body is
+# edited, in case the reporter adds detail later). Claude reads the
+# issue, decides whether it can be implemented as a small contained
+# change, and either opens a PR with the fix or posts a triage comment
+# saying what info is missing or what the plan is.
+#
+# Setup:
+#   1. Run `/install-github-app` in Claude Code to install the official
+#      Anthropic GitHub App on this repo (preferred), OR add an
+#      ANTHROPIC_API_KEY secret manually under Settings → Secrets.
+#   2. That's it — the workflow runs on every new issue.
+
+on:
+  issues:
+    types: [opened, edited]
+
+# The action needs to read repo contents, comment on issues, and push
+# branches / open PRs. Without these the action will fail at the GitHub
+# API call.
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+# Guard against duplicate runs if an issue is opened then edited rapidly.
+# `cancel-in-progress: true` lets the most recent edit supersede the
+# previous one.
+concurrency:
+  group: triage-issue-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    # Skip bot-authored issues and edits Claude itself made to avoid
+    # self-triggering loops.
+    if: github.event.issue.user.type != 'Bot'
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history so Claude can inspect related commits when
+          # deciding whether the issue is already addressed.
+          fetch-depth: 0
+
+      - name: Triage with Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Cap turns so a confused run can't loop indefinitely; bump
+          # later if you find triage is hitting the cap.
+          claude_args: --model claude-sonnet-4-6 --max-turns 8
+          prompt: |
+            A new issue was filed in this repository.
+
+            **Issue #${{ github.event.issue.number }}: ${{ github.event.issue.title }}**
+
+            ${{ github.event.issue.body }}
+
+            ---
+
+            Triage it:
+
+            1. **Read the issue carefully.** Skim the repo (start with README.md, plan.md, and CLAUDE.md if they exist) to understand the codebase context.
+
+            2. **Decide which path applies:**
+
+               **(a) The issue describes a concrete, contained bug or small feature you can implement.**
+               - Create a new branch named `claude/issue-${{ github.event.issue.number }}-<short-slug>`.
+               - Make the minimal change needed.
+               - Open a pull request. Title format: `fix: <short summary> (closes #${{ github.event.issue.number }})`.
+                 In the PR body, link the issue, summarise the change, and list how you tested it (or note that no automated test exists yet).
+               - Comment on the issue with a link to the PR.
+
+               **(b) The issue is ambiguous, too large, or needs human input.**
+               - Comment on the issue with:
+                 - A one-sentence acknowledgement that triage has happened.
+                 - The specific information you need to proceed (repro steps, expected behaviour, scope clarification, etc.).
+                 - If the scope is large, propose how you'd break it into smaller PRs.
+
+               **(c) The issue is a duplicate or already addressed.**
+               - Comment on the issue identifying the existing issue/PR/commit, with links.
+
+            3. **Constraints:**
+               - Do NOT modify CI workflows or anything in `.github/` unless the issue is explicitly about CI.
+               - Do NOT push to `main` directly.
+               - Do NOT skip pre-commit hooks (no `--no-verify`).
+               - If the change touches >5 files OR >300 lines, stop and post a triage comment in path (b) instead — large changes need a human in the loop.
+               - If the project has a `CLAUDE.md`, follow its conventions (commit style, test requirements, etc.).
+
+            4. Be terse. Don't post long monologues — the PR body and a single triage comment are the deliverables.
